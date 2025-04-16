@@ -128,15 +128,6 @@ Visit: `http://localhost:3001`
 
 ---
 
-## 👩‍💻 Developer
-
-**Sri Tanya G**  
-- 🎓 B.Tech CSE @ Sai University  
-- 💻 Passionate about backend development, cloud, and ML  
-- 📫 [LinkedIn](https://www.linkedin.com/in/your-link) | [GitHub](https://github.com/your-username)
-
----
-
 ## 📝 License
 
 This project is licensed under the [MIT License](LICENSE).
