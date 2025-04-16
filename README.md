@@ -127,7 +127,3 @@ Visit: `http://localhost:3001`
 - ✅ Pagination & search filtering
 
 ---
-
-## 📝 License
-
-This project is licensed under the [MIT License](LICENSE).
