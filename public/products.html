@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            color: #333;
+        }
+        #navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px;
+        }
+        #navbar a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        #navbar a:hover {
+            text-decoration: underline;
+        }
+        #product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .product-card {
+            width: 250px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-card .product-details {
+            padding: 10px;
+        }
+        .product-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product-card p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .product-card .price {
+            font-size: 16px;
+            margin: 10px 0;
+            color: green;
+        }
+        .product-card .price span {
+            text-decoration: line-through;
+            color: red;
+            font-size: 14px;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+         <a href="wishlist.html?username={{username}}">Go to Wishlist</a>
+         <a href="cart.html?username={{username}}">Go to Cart</a>
+
+    </div>
+    <h1>Products</h1>
+    <div id="product-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const productContainer = document.getElementById('product-container');
+            const params = new URLSearchParams(window.location.search);
+            const username = params.get('username'); // Extract username from URL
+
+            if (!username) {
+                alert('User not logged in.');
+                return;
+            }
+
+            // Fetch product data from the backend
+            fetch('/products')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(products => {
+                    if (products.length === 0) {
+                        productContainer.innerHTML = '<p>No products available at the moment.</p>';
+                        return;
+                    }
+
+                    products.forEach(product => {
+                        const productImage = product.image || 'https://via.placeholder.com/250';
+
+                        // Create product card
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+
+                        card.innerHTML = `
+                            <img src="${productImage}" alt="${product.name}">
+                            <div class="product-details">
+                                <h3>${product.name}</h3>
+                                <p>${product.description}</p>
+                                <div class="price">
+                                    ₹${product.discountedPrice} 
+                                    <span>₹${product.retailPrice}</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-wishlist" data-product-id="${product.id}">Add to Wishlist</button>
+                                <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+                            </div>
+                        `;
+
+                        productContainer.appendChild(card);
+                    });
+
+                    // Add event listeners for buttons
+                    document.querySelectorAll('.add-to-wishlist').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const productId = e.target.getAttribute('data-product-id');
+                            // Call backend API to add product to wishlist
+                            fetch(`/add-to-wishlist/${productId}?username=${username}`, { method: 'POST' })
+                                .then(response => response.json())
+                                .then(data => alert(data.message))
+                                .catch(error => console.error('Error adding to wishlist:', error));
+                        });
+                    });
+
+                    document.querySelectorAll('.add-to-cart').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const productId = e.target.getAttribute('data-product-id');
+                            // Call backend API to add product to cart
+                            fetch(`/add-to-cart/${productId}?username=${username}`, { method: 'POST' })
+                                .then(response => response.json())
+                                .then(data => alert(data.message))
+                                .catch(error => console.error('Error adding to cart:', error));
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                    productContainer.innerHTML = '<p>Failed to load products. Please try again later.</p>';
+                });
+        });
+    </script>
+</body>
+</html>
