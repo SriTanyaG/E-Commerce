@@ -94,18 +94,12 @@ This project uses **Supabase** as the cloud PostgreSQL database. Supabase provid
    - Copy the **Connection string** (URI format)
    - Add it to your `.env` file:
      ```
-     DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@[HOST]:5432/postgres
+     DB_USER=YOUR_USERNAME
+     DB_HOST=YOUR_HOST
+     DB_DATABASE=DB_NAME
+     DB_PASSWORD=YOUR_PASSWORD
+     DB_PORT=PORT
      ```
-
-### Environment Variables:
-
-Create a `.env` file in the root directory:
-
-```env
-DATABASE_URL=your_supabase_connection_string
-PORT=3001
-NODE_ENV=development
-```
 
 > **Note:** The `.env` file is gitignored. Copy from `.env.example` and fill in your actual credentials.
 
