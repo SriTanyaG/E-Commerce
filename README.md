@@ -1,7 +1,7 @@
 
-# 🛍️ Full-Featured E-Commerce Web Application (Backend)
+# 🛍️ Full-Featured E-Commerce Web Application
 
-This is a comprehensive backend for a full-fledged e-commerce platform built with **Node.js**, **Express.js**, and **PostgreSQL**. It powers essential e-commerce features such as product listings, cart management, wishlists, user authentication, and order processing.
+This is a comprehensive full-stack e-commerce platform built with **Node.js**, **Express.js**, and **Supabase (PostgreSQL)**. It powers essential e-commerce features such as product listings, cart management, wishlists, user authentication, and order processing.
 
 ---
 
@@ -23,9 +23,9 @@ This is a comprehensive backend for a full-fledged e-commerce platform built wit
 |---------------|----------------------------------|
 | Node.js       | Runtime environment              |
 | Express.js    | Web framework                    |
-| PostgreSQL    | Database                         |
+| Supabase      | PostgreSQL cloud database        |
 | bcryptjs      | Password encryption              |
-| xlsx          | Excel data import/export         |
+| dotenv        | Environment variable management  |
 | body-parser   | Parsing HTTP request bodies      |
 
 ---
@@ -65,73 +65,49 @@ cd dbms-ecommerce
 npm install
 ```
 
-## 🗃️ Database Setup Instructions (PostgreSQL)
+## 🗃️ Database Setup (Supabase)
 
-To run the e-commerce application successfully, you need to create the database schema and tables. Follow these steps to import the database into **pgAdmin** using the provided SQL file.
+This project uses **Supabase** as the cloud PostgreSQL database. Supabase provides a free tier with 500MB database storage and is perfect for development and small-scale production applications.
 
----
+### Database Setup Steps:
 
-### 📁 Step 1: Locate the SQL File
+1. **Create Supabase Account:**
+   - Go to [supabase.com](https://supabase.com)
+   - Sign up with GitHub (recommended)
+   - Create a new project
 
-Navigate to the file:
+2. **Create Database Schema:**
+   - Go to **SQL Editor** in Supabase dashboard
+   - Copy and paste the SQL from `database/schema.sql`
+   - Run the query to create all tables
 
-```
-dbms 2/database/schema.sql
-```
+3. **Import Product Data (CSV):**
+   - Supabase has a built-in CSV import feature
+   - Go to **Table Editor** → **products** table
+   - Click **"Import data"** → **"Import CSV"**
+   - Upload `Ecommerce.csv` file
+   - Map columns and import
+   - ✅ Product data imported from Kaggle dataset!
 
-> If your file has a different name or path, just adjust accordingly.
+4. **Get Connection String:**
+   - Go to **Settings** → **Database**
+   - Copy the **Connection string** (URI format)
+   - Add it to your `.env` file:
+     ```
+     DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@[HOST]:5432/postgres
+     ```
 
----
+### Environment Variables:
 
-### 🧩 Step 2: Open pgAdmin & Connect
+Create a `.env` file in the root directory:
 
-1. Open **pgAdmin**.
-2. Connect to your local PostgreSQL server.
-3. Right-click on `Databases`, click **Create > Database**, and name it:
-
-```
-EcommerceM
-```
-
-> You can use any name, but make sure it matches the name in your code (`app.js`).
-
----
-
-### 📥 Step 3: Run the SQL Script
-
-1. Expand the newly created `EcommerceM` database.
-2. Right-click on **Query Tool** under the database.
-3. Open the SQL file:
-   - Click on the **folder icon** in the toolbar.
-   - Locate and select `schema.sql` from your project folder.
-4. Click **Execute/Run** (lightning bolt ⚡️ icon) to run the script.
-
----
-
-### ✅ Step 4: Verify Tables
-
-Once executed, your database will be populated with all required tables like `users`, `products`, `cart`, `wishlist`, `orders`, etc.
-
----
-
-### 💡 Tip
-
-Make sure your `app.js` connects to the same database name you created:
-### 3. Configure PostgreSQL
-
-Make sure PostgreSQL is installed and running. Create a database (e.g., `EcommerceM`), and update your `app.js`:
-
-```js
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'EcommerceM',
-  password: 'your_password',
-  port: 5432,
-});
+```env
+DATABASE_URL=your_supabase_connection_string
+PORT=3001
+NODE_ENV=development
 ```
 
-> Note: You can import product or user data from `Ecommerce.xlsx` if needed using the `xlsx` library.
+> **Note:** The `.env` file is gitignored. Copy from `.env.example` and fill in your actual credentials.
 
 ### 4. Start the Server
 
@@ -162,10 +138,16 @@ Visit: `http://localhost:3001`
 
 ---
 
-## 📊 Excel Data (Optional)
+## 📊 Data Source
 
-- The `Ecommerce.xlsx` file can be used to seed the database with products or users.
-- The `xlsx` package is already included in dependencies for parsing.
+- **Product Data**: The `Ecommerce.csv` file contains product data imported from **Kaggle**
+- **Import Method**: Data was directly imported using **Supabase's CSV import feature**
+  - Go to Supabase Table Editor
+  - Select `products` table
+  - Click "Import data" → "Import CSV"
+  - Upload `Ecommerce.csv`
+  - Map columns and import
+- The CSV file is included in the repository for reference and re-import if needed.
 
 ---
 

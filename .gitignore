@@ -26,7 +26,7 @@ dist/
 build/
 
 # Database backups
-*.sql
+# *.sql  # Commented out - keeping schema.sql
 *.db
 *.sqlite
 

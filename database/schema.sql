@@ -53,3 +53,10 @@ CREATE TABLE order_items (
     price_per_unit NUMERIC,
     total_price NUMERIC
 );
+
+ALTER TABLE wishlist
+ADD CONSTRAINT wishlist_unique UNIQUE (username, uniq_id);
+
+
+ALTER TABLE cart
+ADD CONSTRAINT cart_unique UNIQUE (username, uniq_id);
