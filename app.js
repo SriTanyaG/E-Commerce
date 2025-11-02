@@ -3,20 +3,24 @@ const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // PostgreSQL connection setup
 const pool = new Pool({
-    user: 'postgres', 
-    host: 'localhost',
-    database: 'EcommerceM', 
-    password: '2850',
-    port: 5432,
+    connectionString: process.env.DATABASE_URL,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST || 'localhost',
+    database: process.env.DB_DATABASE || 'EcommerceM',
+    password: process.env.DB_PASSWORD,
+    port: parseInt(process.env.DB_PORT) || 5432,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
 // Serve the homepage
@@ -309,5 +313,6 @@ app.post('/buy-now', async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    const host = process.env.HOST || 'localhost';
+    console.log(`Server is running on http://${host}:${port}`);
 });

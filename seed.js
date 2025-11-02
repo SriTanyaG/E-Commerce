@@ -1,12 +1,15 @@
 const xlsx = require("xlsx");
 const { Pool } = require("pg");
+require('dotenv').config();
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "EcommerceM",
-  password: "2850",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  user: process.env.DB_USER || "postgres",
+  host: process.env.DB_HOST || "localhost",
+  database: process.env.DB_DATABASE || "EcommerceM",
+  password: process.env.DB_PASSWORD,
+  port: parseInt(process.env.DB_PORT) || 5432,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
 async function importExcel() {
