@@ -91,7 +91,7 @@ This project uses **Supabase** as the cloud PostgreSQL database. Supabase provid
 
 4. **Get Connection String:**
    - Go to **Settings** → **Database**
-   - Copy the **Connection string** (URI format)
+   - Copy the **Connection details** 
    - Add it to your `.env` file:
      ```
      DB_USER=YOUR_USERNAME
