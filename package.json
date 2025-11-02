@@ -1,8 +1,30 @@
 {
+  "name": "e-commerce-platform",
+  "version": "1.0.0",
+  "description": "Full-featured e-commerce web application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js",
+    "seed": "node seed.js"
+  },
+  "keywords": [
+    "e-commerce",
+    "shopping",
+    "express",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.6.1",
     "express": "^4.21.2",
-    "pg": "^8.13.1",
+    "pg": "^8.16.3",
     "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
   }
 }

@@ -3,119 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart - E-Commerce</title>
+    <title>Cart - Premium E-Commerce</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Global Styles */
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f7fc;
-            color: #333;
+            box-sizing: border-box;
         }
-
-        .container {
-            width: 80%;
-            margin: 30px auto;
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 50%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #ffffff;
+        }
+        #navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(30, 30, 46, 0.95) 0%, rgba(45, 45, 68, 0.95) 100%);
+            backdrop-filter: blur(10px);
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            gap: 15px;
         }
-
+        #navbar a, #navbar button {
+            color: #ffffff;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(201, 170, 113, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        #navbar a:hover, #navbar button:hover {
+            background: linear-gradient(135deg, rgba(201, 170, 113, 0.3) 0%, rgba(212, 175, 55, 0.3) 100%);
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+        #navbar button.logout-btn {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(220, 38, 38, 0.8) 100%);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+        #navbar button.logout-btn:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 1) 0%, rgba(220, 38, 38, 1) 100%);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 1px rgba(212, 175, 55, 0.2);
+            border-radius: 24px;
+        }
         h1 {
             text-align: center;
-            color: #2c3e50;
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #c9aa71 0%, #d4af37 50%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
         }
-
-        /* Cart Item Styles */
         .product-card {
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #ddd;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: background-color 0.3s;
+            gap: 30px;
+            padding: 25px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
-
         .product-card:hover {
-            background-color: #f9f9f9;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateX(10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(212, 175, 55, 0.2);
         }
-
         .product-card img {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             object-fit: cover;
-            margin-right: 20px;
-            border-radius: 8px;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
-
+        .product-card > div {
+            flex: 1;
+        }
         .product-card h3 {
-            font-size: 18px;
-            margin: 0;
-            color: #2c3e50;
+            font-size: 1.3rem;
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            font-weight: 600;
         }
-
         .product-card p {
-            margin: 5px 0;
-            font-size: 16px;
-            color: #7f8c8d;
+            margin: 8px 0;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
         }
-
         .product-card .price {
-            font-weight: bold;
-            color: #e74c3c;
+            font-weight: 700;
+            color: #4ade80;
+            font-size: 1.2rem;
         }
-
-        /* Total Price Section */
         #total-container {
-            margin-top: 20px;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(201, 170, 113, 0.1) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
             text-align: right;
-            font-size: 20px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #d4af37;
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
         }
-
-        /* Buy Now Button */
         #buy-now {
             width: 100%;
-            padding: 15px;
-            background-color: #3498db;
-            color: white;
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.9) 0%, rgba(34, 197, 94, 0.9) 100%);
+            color: #1e1e2e;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            font-family: 'Inter', sans-serif;
+            border: 2px solid rgba(74, 222, 128, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
         #buy-now:hover {
-            background-color: #2980b9;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 1) 0%, rgba(34, 197, 94, 1) 100%);
+            box-shadow: 0 0 30px rgba(74, 222, 128, 0.6);
+            transform: translateY(-3px);
         }
-
-        /* Back to Products Link */
-        a {
+        #back-to-products {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
             text-decoration: none;
-            color: #3498db;
-            font-size: 16px;
+            color: #d4af37;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(201, 170, 113, 0.1) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
         }
-
-        a:hover {
-            text-decoration: underline;
+        #back-to-products:hover {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(201, 170, 113, 0.2) 100%);
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
-
-        /* Empty Cart Message */
         #cart-container p {
             text-align: center;
-            font-size: 18px;
-            color: #7f8c8d;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px;
+        }
+        .remove-button {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9) 0%, rgba(220, 38, 38, 0.9) 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-left: auto;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+        }
+        .remove-button:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 1) 0%, rgba(220, 38, 38, 1) 100%);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
+    <div id="navbar">
+        <a id="products-link" href="#">Products</a>
+        <a id="wishlist-link" href="#">Wishlist</a>
+        <button id="logout-btn" class="logout-btn" onclick="handleLogout()">Logout</button>
+    </div>
     <div class="container">
         <h1>Your Cart</h1>
         <div id="cart-container"></div>
@@ -125,6 +224,12 @@
     </div>
 
     <script>
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = '/';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const username = new URLSearchParams(window.location.search).get('username');
             if (!username) {
@@ -132,14 +237,17 @@
                 return;
             }
 
-            // Set the dynamic username in the "Back to Products" link
+            // Update navbar links
+            document.getElementById('products-link').href = `products.html?username=${encodeURIComponent(username)}`;
+            document.getElementById('wishlist-link').href = `wishlist.html?username=${encodeURIComponent(username)}`;
+
             const backToProductsLink = document.getElementById('back-to-products');
             backToProductsLink.href = `products.html?username=${username}`;
 
             fetch(`/cart?username=${username}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);  // Log the response to check its structure
+                    console.log(data);
                     const cartContainer = document.getElementById('cart-container');
                     const totalContainer = document.getElementById('total-container');
                     let totalAmount = 0;
@@ -149,19 +257,41 @@
                     } else {
                         data.forEach(item => {
                             const product = item;
-                            const discountedPrice = product.discounted_price || product.original_price;  // Fallback if discounted_price is missing
+                            const discountedPrice = product.discounted_price || product.original_price;
 
                             totalAmount += discountedPrice * item.quantity;
 
                             cartContainer.innerHTML += `
-                                <div class="product-card">
+                                <div class="product-card" data-product-id="${product.uniq_id}">
                                     <img src="${product.image}" alt="${product.product_name}">
                                     <div>
                                         <h3>${product.product_name}</h3>
                                         <p class="price">₹${discountedPrice} x ${item.quantity}</p>
                                     </div>
+                                    <button class="remove-button" data-product-id="${product.uniq_id}">Remove</button>
                                 </div>
                             `;
+                        });
+
+                        document.querySelectorAll('.remove-button').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const productId = e.target.getAttribute('data-product-id');
+                                try {
+                                    const response = await fetch(`/remove-from-cart/${productId}?username=${encodeURIComponent(username)}`, {
+                                        method: 'DELETE'
+                                    });
+                                    const data = await response.json();
+                                    if (response.ok) {
+                                        alert(data.message);
+                                        location.reload();
+                                    } else {
+                                        alert(data.error || 'Failed to remove product from cart');
+                                    }
+                                } catch (error) {
+                                    console.error('Error removing from cart:', error);
+                                    alert('Error removing product from cart');
+                                }
+                            });
                         });
                     }
 
@@ -174,6 +304,7 @@
                     .then(response => response.json())
                     .then(data => {
                         alert('Order placed successfully!');
+                        location.reload();
                     })
                     .catch(error => console.error('Error placing order:', error));
             });

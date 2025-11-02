@@ -12,10 +12,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // PostgreSQL connection setup
 const pool = new Pool({
-    user: 'postgres', // Replace with your PostgreSQL username
+    user: 'postgres', 
     host: 'localhost',
-    database: 'EcommerceM', // Use the correct database name
-    password: '1234', // Replace with your PostgreSQL password
+    database: 'EcommerceM', 
+    password: '2850',
     port: 5432,
 });
 
@@ -54,7 +54,7 @@ app.post('/register', async (req, res) => {
         `;
         await pool.query(query, [username, email, hashedPassword]);
 
-        res.redirect('/products.html');
+        res.redirect(`/products.html?username=${encodeURIComponent(username)}`);
     } catch (error) {
         console.error('Error registering user:', error);
         res.status(500).send('Error registering user.');
@@ -215,6 +215,51 @@ app.get('/cart', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch cart.' });
     }
 });
+
+// Remove product from cart
+app.delete('/remove-from-cart/:productId', async (req, res) => {
+    const { productId } = req.params;
+    const username = req.query.username;
+
+    if (!username) {
+        return res.status(401).json({ error: 'User not logged in.' });
+    }
+
+    try {
+        const query = `
+            DELETE FROM cart 
+            WHERE username = $1 AND uniq_id = $2;
+        `;
+        await pool.query(query, [username, productId]);
+        res.json({ message: 'Product removed from cart successfully!' });
+    } catch (error) {
+        console.error('Error removing from cart:', error);
+        res.status(500).json({ error: 'Failed to remove product from cart.' });
+    }
+});
+
+// Remove product from wishlist
+app.delete('/remove-from-wishlist/:productId', async (req, res) => {
+    const { productId } = req.params;
+    const username = req.query.username;
+
+    if (!username) {
+        return res.status(401).json({ error: 'User not logged in.' });
+    }
+
+    try {
+        const query = `
+            DELETE FROM wishlist 
+            WHERE username = $1 AND uniq_id = $2;
+        `;
+        await pool.query(query, [username, productId]);
+        res.json({ message: 'Product removed from wishlist successfully!' });
+    } catch (error) {
+        console.error('Error removing from wishlist:', error);
+        res.status(500).json({ error: 'Failed to remove product from wishlist.' });
+    }
+});
+
 // Place the order for the user
 app.post('/buy-now', async (req, res) => {
     const username = req.query.username;
