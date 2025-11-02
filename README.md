@@ -55,8 +55,8 @@ dbms 2/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/dbms-ecommerce.git
-cd dbms-ecommerce
+git clone https://github.com/SriTanyaG/E-Commerce.git
+cd E-commerce
 ```
 
 ### 2. Install Dependencies
